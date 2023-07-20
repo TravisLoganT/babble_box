@@ -3,11 +3,9 @@ import axios from "axios";
 import "./App.css";
 
 const AuthPage = (props) => {
+  const { onAuth, onSignUpClick } = props;
   const [username, setUsername] = useState();
   const [secret, setSecret] = useState();
-  const [email, setEmail] = useState();
-  const [first_name, setFirstName] = useState();
-  const [last_name, setLastName] = useState();
 
   const onLogin = (e) => {
     e.preventDefault();
@@ -17,9 +15,6 @@ const AuthPage = (props) => {
       .catch((e) => console.log(JSON.stringify(e.response.data)));
   };
 
-  {
-    /* Login Form */
-  }
   return (
     <div className="background">
       <form onSubmit={onLogin} className="form-card">
@@ -34,6 +29,7 @@ const AuthPage = (props) => {
             onChange={(e) => setUsername(e.target.value)}
           />
         </div>
+
         <div className="auth">
           <div className="auth-label">Password</div>
           <input
@@ -42,11 +38,14 @@ const AuthPage = (props) => {
             name="secret"
             onChange={(e) => setSecret(e.target.value)}
           />
-          <button className="auth-button" type="submit">LOG IN</button>
+          <button className="auth-button" type="submit">
+            LOG IN
+          </button>
         </div>
+        <button className="check-button" onClick={onSignUpClick} type="button">
+          Don't Have An Account? Sign Up Here!
+        </button>
       </form>
-
-    
     </div>
   );
 };
