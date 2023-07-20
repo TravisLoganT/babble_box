@@ -1,52 +1,97 @@
 import { useState } from "react";
 import axios from "axios";
 import "./App.css";
+import { useForm, Controller } from "react-hook-form";
 
 const SignupPage = (props) => {
+  const {
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm();
   const [username, setUsername] = useState();
   const [secret, setSecret] = useState();
+  const [email, setEmail] = useState();
+  const [first_name, setFirstName] = useState();
+  const [last_name, setLastName] = useState();
+  const pattern =
+    /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*()_+])[A-Za-z\d][A-Za-z\d!@#$%^&*()_+]{8,20}$/;
 
-  const onSignUp = (e) => {
-    e.preventDefault();
-    axios
-      .post("http://localhost:3001/login", { username, secret })
-      .then((r) => props.onAuth({ ...r.data, secret })) // NOTE: over-ride secret
-      .catch((e) => console.log(JSON.stringify(e.response.data)));
+  const onSignUp = async (data) => {
+    try {
+      const response = await axios.post("http://localhost:3001/signup", data);
+      props.onAuth({ ...response.data, secret: data.secret });
+    } catch (e) {
+      console.log(JSON.stringify(e.response.data));
+    }
   };
+  {
+    errors.username && <p>{errors.username.message}</p>;
+  }
 
   return (
-    <form onSubmit={onSignUp}>
-      <div className="title">or Sign Up</div>
-      <input
-        type="text"
+    <form onSubmit={handleSubmit(onSignUp)}>
+      <div className="title">Sign Up</div>
+      <Controller
         name="username"
-        placeholder="Username"
-        onChange={(e) => setUsername(e.target.value)}
+        control={control}
+        defaultValue=""
+        rules={{ required: "Username is required" }}
+        render={({ field }) => <input {...field} placeholder="Username" />}
       />
-      <input
-        type="password"
+
+      <Controller
         name="secret"
-        placeholder="Password"
-        onChange={(e) => setSecret(e.target.value)}
+        control={control}
+        defaultValue=""
+        rules={{
+          required: "Password is required",
+          validate: (value) => {
+            if (!/[A-Za-z]/.test(value)) return "Password must contain letters";
+            if (!/\d/.test(value)) return "Password must contain numbers";
+            if (!/[@$!%*#?&]/.test(value))
+              return "Password must contain special characters";
+            if (!/.{8,20}/.test(value))
+              return "Password must be 8-20 characters long";
+            return true;
+          },
+        }}
+        render={({ field }) => (
+          <input {...field} type="password" placeholder="Password" />
+        )}
       />
-      <input
-        type="text"
+      {errors.secret && <p>{errors.secret.message}</p>}
+
+      <Controller
         name="email"
-        placeholder="Email"
-        onChange={(e) => setEmail(e.target.value)}
+        control={control}
+        defaultValue=""
+        render={({ field }) => (
+          <input {...field} type="email" placeholder="Email (Optional)" />
+        )}
       />
-      <input
-        type="text"
+      {errors.email && <p>{errors.email.message}</p>}
+
+      <Controller
         name="first_name"
-        placeholder="First name"
-        onChange={(e) => setFirstName(e.target.value)}
+        control={control}
+        defaultValue=""
+        render={({ field }) => (
+          <input {...field} placeholder="First Name (Optional)" />
+        )}
       />
-      <input
-        type="text"
+      {errors.first_name && <p>{errors.first_name.message}</p>}
+
+      <Controller
         name="last_name"
-        placeholder="Last name"
-        onChange={(e) => setLastName(e.target.value)}
+        control={control}
+        defaultValue=""
+        render={({ field }) => (
+          <input {...field} placeholder="Last Name (Optional)" />
+        )}
       />
+      {errors.last_name && <p>{errors.last_name.message}</p>}
+
       <button type="submit">SIGN UP</button>
     </form>
   );
