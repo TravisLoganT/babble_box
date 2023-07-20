@@ -1,0 +1,15 @@
+POST /signup HTTP/1.1
+Host: localhost:3001
+Content-Type: application/json
+
+{ "username": "admin", "password": "admin"}
+
+###
+
+POST /login HTTP/1.1
+Host: localhost:3001
+Content-Type: application/json
+
+{
+"username": "zack", "secret": "pass1234", "email": "zack@gmail.com", "first_name": "Zack", "last_name": "Engine"
+}
