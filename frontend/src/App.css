@@ -21,6 +21,14 @@ body {
   vertical-align: middle;
 }
 
+.error-message {
+  color: white;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  align-content: center;
+}
+
 .form-card {
   width: 50%;
   padding: 0% 25% 0% 25%;
@@ -47,7 +55,6 @@ body {
   position: relative;
   display: flex-column;
   width: 100%;
-  
 }
 .auth-label {
   position: absolute;
@@ -56,7 +63,7 @@ body {
   font-size: 11px;
   color: rgb(175, 175, 175);
   font-family: Avenir;
-  width: 100px;
+  width: fit-content;
 }
 .auth-input {
   background-color: #3e404b;
@@ -94,8 +101,6 @@ body {
   color: white;
   background: rgb(43, 47, 60);
 }
-
-
 
 .check-button {
   display: flex;
