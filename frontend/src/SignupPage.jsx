@@ -9,14 +9,14 @@ const SignupPage = (props) => {
     control,
     formState: { errors },
   } = useForm();
+  
   const [username, setUsername] = useState();
   const [secret, setSecret] = useState();
   const [email, setEmail] = useState();
   const [first_name, setFirstName] = useState();
   const [last_name, setLastName] = useState();
   const pattern =
-    /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*()_+])[A-Za-z\d][A-Za-z\d!@#$%^&*()_+]{8,20}$/;
-
+    /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*()_+.])[A-Za-z\d][A-Za-z\d!@#$%^&*()_+]{7,20}$/;
   const onSignUp = async (data) => {
     try {
       const response = await axios.post("http://localhost:3001/signup", data);
@@ -30,70 +30,102 @@ const SignupPage = (props) => {
   }
 
   return (
-    <form onSubmit={handleSubmit(onSignUp)}>
-      <div className="title">Sign Up</div>
-      <Controller
-        name="username"
-        control={control}
-        defaultValue=""
-        rules={{ required: "Username is required" }}
-        render={({ field }) => <input {...field} placeholder="Username" />}
-      />
+    
+    <div className="background">
+      <form onSubmit={handleSubmit(onSignUp)} className="form-card">
+        
+        {/* Introduction */}
+        <div className="form-title">Welcome, Newcomer 👋</div>
+        <div className="form-subtitle">Let's get you Signed Up!</div>
 
-      <Controller
-        name="secret"
-        control={control}
-        defaultValue=""
-        rules={{
-          required: "Password is required",
-          validate: (value) => {
-            if (!/[A-Za-z]/.test(value)) return "Password must contain letters";
-            if (!/\d/.test(value)) return "Password must contain numbers";
-            if (!/[@$!%*#?&]/.test(value))
-              return "Password must contain special characters";
-            if (!/.{8,20}/.test(value))
-              return "Password must be 8-20 characters long";
-            return true;
-          },
-        }}
-        render={({ field }) => (
-          <input {...field} type="password" placeholder="Password" />
-        )}
-      />
-      {errors.secret && <p>{errors.secret.message}</p>}
+        {/* Username Form */}
+        { errors.username && <p className="error-message">{errors.username.message}</p> }
+        <div className="auth">
+          <div className="auth-label">Username</div>
+          <Controller
+            name="username"
+            control={control}
+            defaultValue=""
+            rules={{ required: "Username is required" }}
+            render={({ field }) => <input {...field} className="auth-input" />}
+          />
+        </div>
 
-      <Controller
-        name="email"
-        control={control}
-        defaultValue=""
-        render={({ field }) => (
-          <input {...field} type="email" placeholder="Email (Optional)" />
-        )}
-      />
-      {errors.email && <p>{errors.email.message}</p>}
+        {/* Password Form */}
+        {errors.secret && <p className="error-message">{errors.secret.message}</p>}
+        <div className="auth">
+          <div className="auth">
+            <div className="auth-label">Password</div>
+            <Controller
+              name="secret"
+              control={control}
+              defaultValue=""
+              rules={{
+                required: "Password is required",
+                validate: (value) => {
+                  if (!/[A-Za-z]/.test(value))
+                    return "Password must contain letters";
+                  if (!/\d/.test(value)) return "Password must contain numbers";
+                  if (!/[@$!%*#?&.]/.test(value))
+                    return "Password must contain special characters";
+                  if (!/.{7,20}/.test(value))
+                    return "Password must be 8-20 characters long";
+                  return true;
+                },
+              }}
+              render={({ field }) => (
+                <input {...field} type="password" className="auth-input" />
+              )}
+            />
+            
+          </div>
+        </div>
 
-      <Controller
-        name="first_name"
-        control={control}
-        defaultValue=""
-        render={({ field }) => (
-          <input {...field} placeholder="First Name (Optional)" />
-        )}
-      />
-      {errors.first_name && <p>{errors.first_name.message}</p>}
+        {/* Email Form */}
+        {errors.email && <p className="error-message">{errors.email.message}</p>}
+        <div className="auth">
+          <div className="auth-label">Email (Optional)</div>
+          <Controller
+            name="email"
+            control={control}
+            defaultValue=""
+            render={({ field }) => (
+              <input {...field} type="email" className="auth-input" />
+            )}
+          />
+          
+        </div>
 
-      <Controller
-        name="last_name"
-        control={control}
-        defaultValue=""
-        render={({ field }) => (
-          <input {...field} placeholder="Last Name (Optional)" />
-        )}
-      />
-      {errors.last_name && <p>{errors.last_name.message}</p>}
+        {/* First Name Form */}
+        <div className="auth">
+          <div className="auth-label">First Name (Optional)</div>
+          <Controller
+            name="first_name"
+            control={control}
+            defaultValue=""
+            render={({ field }) => <input {...field} className="auth-input" />}
+          />
+          {errors.first_name && <p>{errors.first_name.message}</p>}
+        </div>
 
-      <button type="submit">SIGN UP</button>
-    </form>
+        {/* Last Name Form */}
+        <div className="auth">
+          <div className="auth-label">Last Name (Optional)</div>
+          <Controller
+            name="last_name"
+            control={control}
+            defaultValue=""
+            render={({ field }) => <input {...field} className="auth-input" />}
+          />
+          {errors.last_name && <p>{errors.last_name.message}</p>}
+        </div>
+
+        {/* Sign Up Button */}
+        <button className="auth-button" type="submit">
+          SIGN UP
+        </button>
+      </form>
+    </div>
   );
 };
 
