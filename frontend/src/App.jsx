@@ -7,15 +7,21 @@ import ChatsPage from "./ChatsPage";
 function App() {
   const [user, setUser] = useState(undefined);
   const [signUp, setSignUp] = useState(false);
+  const [logIn, setLogIn] = useState(false);
 
   const onSignUpClick = () => {
     setSignUp(true);
   };
 
+  const onLogInClick = () => {
+    setLogIn(true);
+  };
+
   if (!user) {
     if (signUp) {
       return <SignupPage onAuth={(user) => setUser(user)} />;
-    } else {
+    }
+    else {
       return <AuthPage onAuth={(user) => setUser(user)} onSignUpClick={onSignUpClick} />;
     }
   } else {
