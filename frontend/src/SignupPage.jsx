@@ -9,7 +9,6 @@ const SignupPage = (props) => {
     control,
     formState: { errors },
   } = useForm();
-  
   const [username, setUsername] = useState();
   const [secret, setSecret] = useState();
   const [email, setEmail] = useState();
@@ -123,6 +122,10 @@ const SignupPage = (props) => {
         {/* Sign Up Button */}
         <button className="auth-button" type="submit">
           SIGN UP
+        </button>
+
+        <button className="check-button" type="button">
+          Already Have An Account? Log In Here!
         </button>
       </form>
     </div>
