@@ -18,7 +18,7 @@ const SignupPage = (props) => {
     /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*()_+.])[A-Za-z\d][A-Za-z\d!@#$%^&*()_+]{7,20}$/;
   const onSignUp = async (data) => {
     try {
-      const response = await axios.post("http://localhost:3001/signup", data);
+      const response = await axios.post(`${import.meta.env.VITE_APP_BACKEND_URL}/signup`, data);
       props.onAuth({ ...response.data, secret: data.secret });
     } catch (e) {
       console.log(JSON.stringify(e.response.data));
