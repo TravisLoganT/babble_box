@@ -8,7 +8,8 @@ const app = express();
 app.use(express.json());
 app.use(cors({ origin: true }));
 
-const CHAT_ENGINE_PROJECT_ID = process.env.CHAT_ENGINE_PROJECT_ID;;
+const PORT = process.env.PORT || 3001;
+const CHAT_ENGINE_PROJECT_ID = process.env.CHAT_ENGINE_PROJECT_ID;
 const CHAT_ENGINE_PRIVATE_KEY = process.env.CHAT_ENGINE_PRIVATE_KEY;
 
 app.post("/signup", async (req, res) => {
@@ -48,4 +49,4 @@ app.post("/login", async (req, res) => {
 });
 
 // vvv On port 3001!
-app.listen(3001);
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
