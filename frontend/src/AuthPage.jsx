@@ -10,7 +10,7 @@ const AuthPage = (props) => {
   const onLogin = (e) => {
     e.preventDefault();
     axios
-      .post(`${import.meta.env.VITE_APP_BACKEND_URL}/login`, { username, secret })
+      .post("http://localhost:3001/login", { username, secret })
       .then((r) => props.onAuth({ ...r.data, secret })) // NOTE: over-ride secret
       .catch((e) => console.log(JSON.stringify(e.response.data)));
   };

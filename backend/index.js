@@ -8,10 +8,8 @@ const app = express();
 app.use(express.json());
 app.use(cors({ origin: true }));
 
-const PORT = process.env.PORT || 3001;
-const CHAT_ENGINE_PROJECT_ID = process.env.CHAT_ENGINE_PROJECT_ID;
+const CHAT_ENGINE_PROJECT_ID = process.env.CHAT_ENGINE_PROJECT_ID;;
 const CHAT_ENGINE_PRIVATE_KEY = process.env.CHAT_ENGINE_PRIVATE_KEY;
-const REACT_APP_BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
 app.post("/signup", async (req, res) => {
   const { username, secret, email, first_name, last_name } = req.body;
@@ -50,4 +48,4 @@ app.post("/login", async (req, res) => {
 });
 
 // vvv On port 3001!
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+app.listen(3001);
